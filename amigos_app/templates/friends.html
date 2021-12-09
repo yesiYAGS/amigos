@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <nav>
+        <a href="/home">Home</a>   <a href="/logout">logout</a>
+    </nav>
+    
+    <h1>Hello, {{user.alias}}</h1>
+    <h3>Here is the list of your friends</h3>
+    <table>
+        <thead>
+            {% for usuarios in usuario %}
+                {% if usuarios.name_friend.id == request.session.u_id or user in usuarios.amigo.all %}
+            <tr>
+                <td>{{usuarios.alias}}</td>
+                <td>{{usuarios.first_name}}</td>
+                
+                <td>
+                    {% if usuarios.amigo.id == request.session.u_id %}
+                        <a href="">Remove as Friend</a>
+                    {% endif %}
+                </td>
+            </tr>
+                {% endif %}
+            {% endfor %}
+            <tr>
+                <th>Alias</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for usuarios in usuario %}
+                {% if usuarios.first_name == user.first_name %}
+                    <tr>
+                        <td>{{usuarios.alias}}</td>
+                        <td>
+                            <a href="/user/{{user.id}}">View profile</a>
+                            <a href="/user/remove/{{user.id}}">Remove as Friend</a>
+                        </td>
+                    </tr>        
+                {% endif %}
+            {% endfor %}
+            <tr>
+                <td>garcia</td>
+                <td>
+                    <a href="">View profile</a>
+                    <a href=""> Remove as Friend</a>
+                </td>
+            </tr>     
+        </tbody>
+    </table>
+
+    <h3>Other Users not on your friends list</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Alias</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for usuarios in usuario %}
+                {% if usuarios.first_name != user.first_name %}
+                    <tr>
+                        <td><a href="/user/{{user.id}}">{{usuarios.alias}}</a></td>
+                        <td>
+                            <a href='/user/add/{{user.id}}'>Add as friends</a>
+                        </td>
+                    </tr>        
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
